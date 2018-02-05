@@ -13,10 +13,11 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">	
 	
 	<!-- 开启组件扫描 -->
-	<context:component-scan base-package="cn.i7baoz.blog.webchat">
+	<context:component-scan base-package="cn.i7baoz.blog">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
+	<bean class="cn.i7baoz.blog.shiroweb.annotation.UrlPermissionComponentHandler"></bean> 
 	<!-- HandlerMapping -->
 	<mvc:annotation-driven>  
         <mvc:message-converters>  
@@ -25,9 +26,13 @@
         </mvc:message-converters> 
 	</mvc:annotation-driven> 
 	<aop:aspectj-autoproxy/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
     
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	
 </beans>
