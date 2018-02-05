@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @see
  */
 @Controller
-public class LoginController extends BaseController{
+public class LoginController {
 
 	// 登录页面
 	private static String LOGIN_PAGE = "login";

@@ -12,10 +12,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
-
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -26,6 +22,7 @@ import org.springframework.stereotype.Repository;
 import cn.i7baoz.blog.shiroweb.dao.UserDao;
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
 import cn.i7baoz.blog.shiroweb.pojo.RoleBean;
+import cn.i7baoz.blog.shiroweb.pojo.RolePermsBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserBean;
 import cn.i7baoz.blog.shiroweb.pojo.UserRolesBean;
 
@@ -135,44 +132,92 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public List<String> findRoles(String username) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(" select r.roleName from UserBean u,RoleBean r,UserRolesBean ur  ");
-		sb.append(" where u.username = :username ");
-		sb.append(" and u.userId = ur.userId ");
-		sb.append(" and ur.roleId = r.roleId ");
-		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
-		query.setString("username", username);
-		return query.list();
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(" select r.roleName from UserBean u,RoleBean r,UserRolesBean ur  ");
+//		sb.append(" where u.username = :username ");
+//		sb.append(" and u.userId = ur.userId ");
+//		sb.append(" and ur.roleId = r.roleId ");
+//		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
+//		query.setString("username", username);
+//		return query.list();
+		List<RoleBean> list = findRoleByUsername(username);
+		
+		if ( null == list || list.size() == 0 ) {
+			return null;
+		}
+		List<String> roles = new ArrayList<String>();
+		for ( RoleBean bean : list ) {
+			roles.add(bean.getRoleName());
+		}
+		return roles;
 	}
-	@SuppressWarnings("unchecked")
+	private List<RoleBean> findRoleByUsernameOrUserId (String username,String userId) {
+		Query query = new Query();
+		if ( null != username && !username.isEmpty() ) {
+			query.addCriteria(new Criteria("username").is(username));
+		} 
+		if ( null != userId && !userId.isEmpty()) {
+			query.addCriteria(new Criteria("userId").is(userId));
+		}
+		
+		UserBean userBean = mongoTemplate.findOne(query, UserBean.class);
+		if ( null == userBean ) {
+			return null;
+		}
+		query = new Query();
+		query.addCriteria(new Criteria("userId").is(userBean.getUserId()));
+		
+		List<UserRolesBean> userRoles = mongoTemplate.find(query, UserRolesBean.class);
+		
+		if ( null == userRoles || userRoles.size() == 0 ) {
+			return null;
+		}
+		List<String> roleIds = new ArrayList<String>();
+		for ( UserRolesBean bean : userRoles ) {
+			roleIds.add(bean.getRoleId());
+		}
+		query = new Query();
+		query.addCriteria(new Criteria("").in(roleIds));
+		
+		return mongoTemplate.find(query, RoleBean.class);
+	}
 	@Override
 	public List<RoleBean> findRoleByUsername(String username) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(" select r from UserBean u,RoleBean r,UserRolesBean ur  ");
-		sb.append(" where u.username = :username ");
-		sb.append(" and u.userId = ur.userId ");
-		sb.append(" and ur.roleId = r.roleId ");
-		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
-		query.setString("username", username);
-		return query.list();
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(" select r from UserBean u,RoleBean r,UserRolesBean ur  ");
+//		sb.append(" where u.username = :username ");
+//		sb.append(" and u.userId = ur.userId ");
+//		sb.append(" and ur.roleId = r.roleId ");
+//		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
+//		query.setString("username", username);
+//		return query.list();
+		return findRoleByUsernameOrUserId(username,null);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<String> findPermissions(String username) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(" select p.permission from UserBean u,RoleBean r,UserRolesBean ur,PermissionBean p,RolePermsBean rp  ");
-		sb.append(" where u.username = :username ");
-		sb.append(" and u.userId = ur.userId ");
-		sb.append(" and ur.roleId = r.roleId ");
-		sb.append(" and ur.roleId = rp.roleId ");
-		sb.append(" and rp.permsId = p.permsId ");
-		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
-		query.setString("username", username);
-		return query.list();
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(" select p.permission from UserBean u,RoleBean r,UserRolesBean ur,PermissionBean p,RolePermsBean rp  ");
+//		sb.append(" where u.username = :username ");
+//		sb.append(" and u.userId = ur.userId ");
+//		sb.append(" and ur.roleId = r.roleId ");
+//		sb.append(" and ur.roleId = rp.roleId ");
+//		sb.append(" and rp.permsId = p.permsId ");
+//		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
+//		query.setString("username", username);
+//		return query.list();
+		List<PermissionBean> list = findPermissionsByUsername(username);
+		
+		if ( null == list || list.size() == 0 ) {
+			return null;
+		}
+		List<String> permissions = new ArrayList<String>();
+		for (PermissionBean bean : list ) {
+			permissions.add(bean.getPermission());
+		}
+		return permissions;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserBean> listAllUsers() {
 //		return sessionFactory.getCurrentSession().createCriteria(UserBean.class).list();
@@ -184,34 +229,66 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public List<PermissionBean> findPermissionsByUsername(String username) {
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append(" select p from UserBean u,RoleBean r,UserRolesBean ur,PermissionBean p,RolePermsBean rp  ");
-		sb.append(" where u.username = :username ");
-		sb.append(" and u.userId = ur.userId ");
-		sb.append(" and ur.roleId = r.roleId ");
-		sb.append(" and ur.roleId = rp.roleId ");
-		sb.append(" and rp.permsId = p.permsId ");
-		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
-		query.setString("username", username);
-		return query.list();
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(" select p from UserBean u,RoleBean r,UserRolesBean ur,PermissionBean p,RolePermsBean rp  ");
+//		sb.append(" where u.username = :username ");
+//		sb.append(" and u.userId = ur.userId ");
+//		sb.append(" and ur.roleId = r.roleId ");
+//		sb.append(" and ur.roleId = rp.roleId ");
+//		sb.append(" and rp.permsId = p.permsId ");
+//		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
+//		query.setString("username", username);
+//		return query.list();
+		
+		List<RoleBean> list = findRoleByUsernameOrUserId(username,null);
+		
+		if ( null == list || list.size() == 0 ) {
+			return null;
+		}
+		List<String> ids = new ArrayList<String>();
+		for ( RoleBean bean : list ) {
+			ids.add(bean.getRoleId());
+		}
+		Query query = new Query();
+		query.addCriteria(new Criteria("roleId").in(ids));
+		List<RolePermsBean> rolePermissions = mongoTemplate.find(query, RolePermsBean.class);
+		
+		if ( null == rolePermissions || rolePermissions.size() == 0 ) {
+			return null;
+		}
+		ids = new ArrayList<String>();
+		for ( RolePermsBean bean : rolePermissions ) {
+			ids.add(bean.getPermsId());
+		}
+		query = new Query();
+		query.addCriteria(new Criteria("permsId").in(ids));
+		return mongoTemplate.find(query, PermissionBean.class);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<String> findRolesByUserId(String userId) {
 		
-		Session session = sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(UserRolesBean.class);
-		criteria.add(Restrictions.eq("userId", userId));
-		
+//		Session session = sessionFactory.getCurrentSession();
+//		Criteria criteria = session.createCriteria(UserRolesBean.class);
+//		criteria.add(Restrictions.eq("userId", userId));
+//		
 		List<String> roles = new ArrayList<String>();
-		List<UserRolesBean> list = criteria.list();
-		if ( null != list ) {
-			for ( UserRolesBean bean : list ) {
-				roles.add(bean.getRoleId());
-			}
-		}
+//		List<UserRolesBean> list = criteria.list();
+//		if ( null != list ) {
+//			for ( UserRolesBean bean : list ) {
+//				roles.add(bean.getRoleId());
+//			}
+//		}
+//		
+//		return roles;
+		List<RoleBean> list = findRoleByUsernameOrUserId(null,userId);
 		
+		if ( null == list || list.size() == 0 ) {
+			return null;
+		}
+		for ( RoleBean bean : list ) {
+			roles.add(bean.getRoleId());
+		}
 		return roles;
 	}
 }

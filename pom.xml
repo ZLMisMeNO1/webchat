@@ -250,11 +250,11 @@
 			<version>1.2.2</version>
 		</dependency>
 
-<!-- 		<dependency>
+ 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-quartz</artifactId>
 			<version>1.4.0</version>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>

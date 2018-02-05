@@ -25,7 +25,7 @@ http://www.springframework.org/schema/data/repository http://www.springframework
 
 
 	<!-- mongo:db-factory dbname="database" mongo-ref="mongo" / -->
-	<mongo:db-factory id="mongoDbFactory" dbname="learner"
+	<mongo:db-factory id="mongoDbFactory" dbname="webchat"
 		mongo-ref="mongo" />
 
 

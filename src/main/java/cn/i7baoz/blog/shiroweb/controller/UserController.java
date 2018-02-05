@@ -33,8 +33,8 @@ import cn.i7baoz.blog.shiroweb.service.UserService;
  * @see       
  */
 @Controller
-@RequestMapping("user")
-public class UserController extends BaseController{
+@RequestMapping("auth/user")
+public class UserController {
 
 	@Autowired
 	private UserService userService;

@@ -29,7 +29,7 @@ import org.springframework.core.annotation.Order;
 @Target(value={ElementType.METHOD})
 //最高优先级
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public @interface UrlPermissionComponent {
+public @interface UrlPermissionComponent{
 
 	//跟随spring的脚步，每个注解都有value值
 	String value()  default "";
@@ -49,7 +49,6 @@ public @interface UrlPermissionComponent {
 	int sortNumber() default 0;
 	
 	String belong() default "/";
-	
 	
 }
  

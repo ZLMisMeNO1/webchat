@@ -9,8 +9,8 @@
 package cn.i7baoz.blog.shiroweb.dto;  
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cn.i7baoz.blog.shiroweb.pojo.PermissionBean;
@@ -36,7 +36,7 @@ public class UrlPermissionTreeDto implements Serializable{
 	private String permission;
 	
 	//创建时间
-	private Timestamp createTime ;
+	private Date createTime ;
 
 	//当前状态
 	private Integer currentStatus;
@@ -88,11 +88,11 @@ public class UrlPermissionTreeDto implements Serializable{
 		this.permission = permission;
 	}
 
-	public Timestamp getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Timestamp createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 

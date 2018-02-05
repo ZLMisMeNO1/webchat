@@ -8,7 +8,6 @@
   
 package cn.i7baoz.blog.shiroweb.pojo;  
 
-import java.sql.Timestamp;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -37,9 +36,6 @@ public class RoleBean extends BaseBean{
 	//角色名称
 	private String roleName;
 	
-	//创建时间
-	private Timestamp createTime = new Timestamp(System.currentTimeMillis());
-	
 	//创建人
 	private String createUsername;
 	
@@ -63,13 +59,6 @@ public class RoleBean extends BaseBean{
 		this.roleName = roleName;
 	}
 
-	public Timestamp getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
-	}
 
 
 	public String getCreateUsername() {

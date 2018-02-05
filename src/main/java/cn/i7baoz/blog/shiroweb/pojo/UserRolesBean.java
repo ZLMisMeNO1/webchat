@@ -8,7 +8,6 @@
   
 package cn.i7baoz.blog.shiroweb.pojo;  
 
-import java.sql.Timestamp;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -43,8 +42,6 @@ public class UserRolesBean extends BaseBean{
 	//描述
 	private String descMsg;
 	
-	//创建时间
-	private Timestamp createTime = new Timestamp(System.currentTimeMillis());
 	
 	//排序号
 	private Integer sortNumber = 0 ;
@@ -71,12 +68,6 @@ public class UserRolesBean extends BaseBean{
 	}
 	public void setDescMsg(String descMsg) {
 		this.descMsg = descMsg;
-	}
-	public Timestamp getCreateTime() {
-		return createTime;
-	}
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
 	}
 	public Integer getSortNumber() {
 		return sortNumber;

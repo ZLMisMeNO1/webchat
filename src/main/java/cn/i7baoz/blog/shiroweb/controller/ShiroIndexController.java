@@ -28,13 +28,14 @@ import cn.i7baoz.blog.shiroweb.service.PermissionService;
  * @see       
  */
 @Controller
-public class IndexController extends BaseController{
+@RequestMapping("auth/basic")
+public class ShiroIndexController {
 
 	@Autowired
 	PermissionService permissionService;
 	
 	//主页
-	@RequestMapping("/index") 
+	@RequestMapping("index") 
 	public ModelAndView index()  throws AuthenticationException {
 		ModelAndView modelAndView = new ModelAndView("index");
 		modelAndView.addObject("username",SecurityUtils.getSubject().getPrincipal());
@@ -43,7 +44,7 @@ public class IndexController extends BaseController{
 	}
 	
 	@UrlPermissionComponent(url="welcome",desc="欢迎页",isView=true,isMenu=true,sortNumber=0)
-	@RequestMapping("/welcome") 
+	@RequestMapping("welcome") 
 	public ModelAndView welcome()  throws AuthenticationException {
 		ModelAndView modelAndView = new ModelAndView("welcome");
 		return modelAndView;

@@ -38,8 +38,8 @@ import cn.i7baoz.blog.shiroweb.enums.SystemMessageEnum;
  * @see       
  */
 @Controller
-@RequestMapping("usermanage")
-public class UserManageController extends BaseController{
+@RequestMapping("auth/usermanage")
+public class UserManageController {
 
 	@Autowired
 	private UserService userService;

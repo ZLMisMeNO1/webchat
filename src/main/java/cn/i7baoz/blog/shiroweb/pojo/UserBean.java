@@ -8,7 +8,6 @@
 
 package cn.i7baoz.blog.shiroweb.pojo;
 
-import java.sql.Timestamp;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -46,8 +45,6 @@ public class UserBean extends BaseBean {
 	// 用户状态
 	private Integer currentStatus = CurrentStatusEnum.NORMAL.getStatusCode();
 
-	// 创建时间
-	private Timestamp createTime = new Timestamp(System.currentTimeMillis());
 
 	public UserBean() {
 		super();
@@ -104,13 +101,7 @@ public class UserBean extends BaseBean {
 		this.currentStatus = currentStatus;
 	}
 
-	public Timestamp getCreateTime() {
-		return createTime;
-	}
 
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
-	}
 
 	@Override
 	public int hashCode() {

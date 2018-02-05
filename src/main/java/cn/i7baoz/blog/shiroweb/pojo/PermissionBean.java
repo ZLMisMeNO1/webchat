@@ -8,7 +8,6 @@
   
 package cn.i7baoz.blog.shiroweb.pojo;  
 
-import java.sql.Timestamp;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -38,8 +37,7 @@ public class PermissionBean extends BaseBean{
 	
 	private String permission;
 	
-	//创建时间
-	private Timestamp createTime = new Timestamp(System.currentTimeMillis());
+	
 
 	//当前状态
 	private Integer currentStatus;
@@ -81,13 +79,6 @@ public class PermissionBean extends BaseBean{
 		this.permission = permission;
 	}
 
-	public Timestamp getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
-	}
 
 	public Integer getCurrentStatus() {
 		return currentStatus;
@@ -134,7 +125,7 @@ public class PermissionBean extends BaseBean{
 	@Override
 	public String toString() {
 		return "PermissionBean [permsId=" + permsId + ", permission="
-				+ permission + ", createTime=" + createTime
+				+ permission 
 				+ ", currentStatus=" + currentStatus + ", descMsg=" + descMsg
 				+ ", permissionType=" + permissionType + "]";
 	}

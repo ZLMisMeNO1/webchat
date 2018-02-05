@@ -19,7 +19,8 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
             classpath:spring-shiro-web.xml,
-            classpath:webchat-application.xml
+            classpath:webchat-application.xml,
+            classpath:learner-mongo.xml
         </param-value>
 	</context-param>
 	<!-- 添加shiro支持 -->

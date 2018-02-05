@@ -10,6 +10,7 @@ package cn.i7baoz.blog.shiroweb.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,8 +44,8 @@ import cn.i7baoz.blog.shiroweb.service.UserService;
  * @see       
  */
 @Controller
-@RequestMapping("role")
-public class RoleManageController extends BaseController{
+@RequestMapping("auth/role")
+public class RoleManageController{
 
 	@Autowired
 	private RoleService roleService;
