@@ -32,7 +32,7 @@ public interface UserService {
      * 创建用户
      * @param user
      */
-    public UserBean createUser(String username,String password) throws AuthenticationException;
+    public UserBean createUser(String username,String password,Integer roomId) throws AuthenticationException;
 
     /**
      * 修改密码

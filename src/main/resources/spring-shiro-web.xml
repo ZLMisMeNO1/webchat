@@ -99,16 +99,27 @@
             </util:map>
         </property>
         <property name="filterChainDefinitions">
+                 	<!-- 用户，角色，权限 -->
+<!--              	/auth/** = authc -->
+             	<!-- 观看直播 -->
+<!--              	/room/** = anon -->
+             	<!-- 开通直播 -->
+<!--              	/chater/** = authc -->
             <value>
-                /index.jsp = authc
-                /unauthorized.jsp = anon
-                /login.jsp = anon
-                /user/logout = logout
+            	/**/** = authc
+             	/auth/** = authc
+             	/chater/** = authc
+             	/room/** = anon
+             	/login = anon
+                <!-- /index.jsp = authc -->
+               <!--  /unauthorized.jsp = anon -->
+                <!-- /login.jsp = anon -->
+               <!--  /auth/user/logout = logout -->
                 /images/** = anon
                 /js/** = anon
+                /404.jsp = anon
                 /Plugins/** = anon
-                /styles/** = anon
-                /** = authc
+                /css/** = anon
             </value>
         </property>
     </bean>

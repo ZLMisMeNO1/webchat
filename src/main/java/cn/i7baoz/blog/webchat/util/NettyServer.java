@@ -6,10 +6,12 @@
  * 
  */  
   
-package cn.i7baoz.blog.webchat.test;  
+package cn.i7baoz.blog.webchat.util;  
 
 import javax.annotation.PostConstruct;
+
 import org.springframework.stereotype.Service;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
@@ -24,19 +26,32 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  * @since    JDK 1.7 
  * @see       
  */
-@Service
 public class NettyServer {
-	  public static void main(String[] args) {
-	        new NettyServer().run();
-	    }
-	    @PostConstruct
-	    public void initNetty(){
-	        new Thread(){
-	            public void run() {
-	                new NettyServer().run();
-	                }
-	        }.start();
-	        }
+	private Integer roomId;
+	
+	
+	public Integer getRoomId() {
+		return roomId;
+	}
+	
+	@SuppressWarnings("unused")
+	private NettyServer() {
+		
+	}
+	public NettyServer(Integer roomId) {
+		this.roomId = roomId;
+	}
+//	  public static void main(String[] args) {
+//	        new NettyServer().run();
+//	    }
+//	    @PostConstruct
+//	    public void initNetty(){
+//	        new Thread(){
+//	            public void run() {
+//	                new NettyServer().run();
+//	                }
+//	        }.start();
+//	        }
 	    public void run(){
 	        System.out.println("===========================Netty端口启动========");
 	        // Boss线程：由这个线程池提供的线程是boss种类的，用于创建、连接、绑定socket， （有点像门卫）然后把这些socket传给worker线程池。
@@ -52,8 +67,9 @@ public class NettyServer {
 	            b.channel(NioServerSocketChannel.class);
 	             // ChildChannelHandler 对出入的数据进行的业务操作,其继承ChannelInitializer
 	            b.childHandler(new ChildChannelHandler());
-	            System.out.println("服务端开启等待客户端连接 ... ...");
-	            Channel ch = b.bind(7397).sync().channel();
+	            System.out.println("服务端"+roomId+"开启等待客户端连接 ... ...");
+	            Channel ch = b.bind(roomId).sync().channel();
+//	            Channel ch = b.bind(7397).sync().channel();
 	            ch.closeFuture().sync();
 	        } catch (Exception e) {
 	            e.printStackTrace();

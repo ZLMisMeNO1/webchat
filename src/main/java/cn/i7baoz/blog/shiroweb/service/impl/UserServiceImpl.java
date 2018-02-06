@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 	private PasswordHelper passwordHelper;
 	
 	@Override
-	public UserBean createUser(String username,String password) throws AuthenticationException {
+	public UserBean createUser(String username,String password,Integer roomId) throws AuthenticationException {
 		
 		UserBean oldUser = userDao.findByUsername(username);
 		
@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
 		UserBean user = new UserBean();
 		user.setUsername(username);
 		user.setPassword(password);
+		user.setRoomId(roomId);
 		user.setCurrentStatus(CurrentStatusEnum.NORMAL.getStatusCode());
 		//用户密码加密
 		new PasswordHelper().encryptPassword(user);

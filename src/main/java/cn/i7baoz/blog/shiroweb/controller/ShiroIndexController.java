@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import cn.i7baoz.blog.shiroweb.annotation.UrlPermissionComponent;
 import cn.i7baoz.blog.shiroweb.service.PermissionService;
 
 /** 
@@ -37,17 +35,11 @@ public class ShiroIndexController {
 	//主页
 	@RequestMapping("index") 
 	public ModelAndView index()  throws AuthenticationException {
-		ModelAndView modelAndView = new ModelAndView("index");
+		ModelAndView modelAndView = new ModelAndView("shiro/index");
 		modelAndView.addObject("username",SecurityUtils.getSubject().getPrincipal());
 		modelAndView.addObject("menuList",permissionService.listMenu());
 		return modelAndView;
 	}
 	
-	@UrlPermissionComponent(url="welcome",desc="欢迎页",isView=true,isMenu=true,sortNumber=0)
-	@RequestMapping("welcome") 
-	public ModelAndView welcome()  throws AuthenticationException {
-		ModelAndView modelAndView = new ModelAndView("welcome");
-		return modelAndView;
-	}
 }
  

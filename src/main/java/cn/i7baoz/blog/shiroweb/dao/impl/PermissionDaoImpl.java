@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import cn.i7baoz.blog.shiroweb.dao.PermissionDao;
@@ -40,7 +41,9 @@ public class PermissionDaoImpl implements PermissionDao {
 	@Override
 	public PermissionBean createPermission(PermissionBean permission) {
 		PermissionBean oldBean = exist(permission);
+		
 		if ( null ==  oldBean) {
+			
 			mongoTemplate.save(permission);
 			return permission;
 		}
@@ -53,15 +56,18 @@ public class PermissionDaoImpl implements PermissionDao {
 			mongoTemplate.save(permission);
 			return permission;
 		}
-		oldBean.setBelong(permission.getBelong());
-		oldBean.setCreateTime(permission.getCreateTime());
-		oldBean.setCurrentStatus(permission.getCurrentStatus());
-		oldBean.setDescMsg(permission.getDescMsg());
-		oldBean.setIsMenu(permission.getIsMenu());
-		oldBean.setPermission(permission.getPermission());
-		oldBean.setPermissionType(permission.getPermissionType());
-		oldBean.setSortNumber(permission.getSortNumber());
-		mongoTemplate.save(permission);
+		Query query = new Query().addCriteria(new Criteria("permsId").is(oldBean.getPermsId()));
+		Update update = new Update()
+				.set("permission", permission.getPermission())
+				.set("currentStatus", permission.getCurrentStatus())
+				.set("descMsg", permission.getDescMsg())
+				.set("permissionType", permission.getPermissionType())
+				.set("belong", permission.getBelong())
+				.set("isMenu", permission.getIsMenu())
+				.set("sortNumber", permission.getSortNumber())
+				;
+		mongoTemplate.updateFirst(query, update, PermissionBean.class);
+//		mongoTemplate.save(permission);
 		return oldBean;
 	}
 	private PermissionBean exist(PermissionBean permission) {

@@ -6,7 +6,7 @@
  * 
  */  
   
-package cn.i7baoz.blog.webchat.test;  
+package cn.i7baoz.blog.webchat.util;  
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;

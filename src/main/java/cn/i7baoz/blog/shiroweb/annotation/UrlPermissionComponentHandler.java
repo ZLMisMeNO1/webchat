@@ -11,16 +11,11 @@ package cn.i7baoz.blog.shiroweb.annotation;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -41,7 +36,6 @@ import cn.i7baoz.blog.shiroweb.service.PermissionService;
 public class UrlPermissionComponentHandler extends RequestMappingHandlerMapping 
 		implements ApplicationListener<ContextRefreshedEvent>{
 
-	private Logger logger = Logger.getLogger(UrlPermissionComponentHandler.class);
 	@Autowired
 	PermissionService permissionService;
 	
@@ -57,29 +51,30 @@ public class UrlPermissionComponentHandler extends RequestMappingHandlerMapping
 
 	            HandlerMethod handlerMethod = entry.getValue();
 	            Method method = handlerMethod.getMethod();
-	            RequestMappingInfo key = entry.getKey();
+//	            RequestMappingInfo key = entry.getKey();
 	            
 	            if(!method.isAnnotationPresent(UrlPermissionComponent.class)){
 	                continue;
 	            }
-	            Set<String>  patterns = key.getPatternsCondition().getPatterns();
-//	            	if ( null != patterns && patterns.size() == 1 ) {
-	            		for (String path : patterns)
-	            			logger.info("path:" + path);
-//	            	}
+//	            String url = null;
+//	            Set<String>  patterns = key.getPatternsCondition().getPatterns();
+////	            	if ( null != patterns && patterns.size() == 1 ) {
+//	            		for (String path : patterns)
+//	            			url = path;
+////	            	}
 //
 	            UrlPermissionComponent urlPermissionComponent = method.getAnnotation(UrlPermissionComponent.class);
-//	            bean = new PermissionBean();
-//	            bean.setCurrentStatus(CurrentStatusEnum.NORMAL.getStatusCode());
-//	            bean.setCreateTime(new Timestamp(System.currentTimeMillis()));
-//	            bean.setPermission(urlPermissionComponent.url());
-//	            bean.setDescMsg(urlPermissionComponent.desc());
-//	            bean.setPermissionType(urlPermissionComponent.isView() ? 0 : 1);
-//	            bean.setIsMenu(urlPermissionComponent.isMenu());
-//	            bean.setBelong(urlPermissionComponent.belong());
-//	            bean.setSortNumber(urlPermissionComponent.sortNumber());
-//	            if (!permissionBeanList.contains(bean))
-//	            	permissionBeanList.add(bean);
+	            bean = new PermissionBean();
+	            bean.setCurrentStatus(CurrentStatusEnum.NORMAL.getStatusCode());
+	            bean.setCreateTime(new Timestamp(System.currentTimeMillis()));
+	            bean.setPermission(urlPermissionComponent.url());
+	            bean.setDescMsg(urlPermissionComponent.desc());
+	            bean.setPermissionType(urlPermissionComponent.isView() ? 0 : 1);
+	            bean.setIsMenu(urlPermissionComponent.isMenu());
+	            bean.setBelong(urlPermissionComponent.belong());
+	            bean.setSortNumber(urlPermissionComponent.sortNumber());
+	            if (!permissionBeanList.contains(bean))
+	            	permissionBeanList.add(bean);
 	        }
 		return urlMethodMapping;
 	}

@@ -45,7 +45,26 @@ public class UserBean extends BaseBean {
 	// 用户状态
 	private Integer currentStatus = CurrentStatusEnum.NORMAL.getStatusCode();
 
+	public Integer getUserType() {
+		return userType;
+	}
 
+	public void setUserType(Integer userType) {
+		this.userType = userType;
+	}
+
+	public Integer getRoomId() {
+		return roomId;
+	}
+
+	public void setRoomId(Integer roomId) {
+		this.roomId = roomId;
+	}
+
+	private Integer userType = 0; //0:普通用户 1：主播
+	
+	private Integer roomId; //主播可用
+	
 	public UserBean() {
 		super();
 	}

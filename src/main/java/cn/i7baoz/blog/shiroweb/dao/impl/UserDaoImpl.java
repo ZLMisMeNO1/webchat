@@ -140,15 +140,17 @@ public class UserDaoImpl implements UserDao{
 //		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
 //		query.setString("username", username);
 //		return query.list();
+		List<String> roles = new ArrayList<String>();
 		List<RoleBean> list = findRoleByUsername(username);
 		
 		if ( null == list || list.size() == 0 ) {
-			return null;
+			return roles;
 		}
-		List<String> roles = new ArrayList<String>();
+		
 		for ( RoleBean bean : list ) {
 			roles.add(bean.getRoleName());
 		}
+		
 		return roles;
 	}
 	private List<RoleBean> findRoleByUsernameOrUserId (String username,String userId) {
@@ -177,7 +179,7 @@ public class UserDaoImpl implements UserDao{
 			roleIds.add(bean.getRoleId());
 		}
 		query = new Query();
-		query.addCriteria(new Criteria("").in(roleIds));
+		query.addCriteria(new Criteria("roleId").in(roleIds));
 		
 		return mongoTemplate.find(query, RoleBean.class);
 	}
@@ -206,12 +208,13 @@ public class UserDaoImpl implements UserDao{
 //		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
 //		query.setString("username", username);
 //		return query.list();
+		List<String> permissions = new ArrayList<String>();
 		List<PermissionBean> list = findPermissionsByUsername(username);
 		
 		if ( null == list || list.size() == 0 ) {
-			return null;
+			return permissions;
 		}
-		List<String> permissions = new ArrayList<String>();
+		
 		for (PermissionBean bean : list ) {
 			permissions.add(bean.getPermission());
 		}

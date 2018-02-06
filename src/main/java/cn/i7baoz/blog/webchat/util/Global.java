@@ -6,7 +6,7 @@
  * 
  */  
   
-package cn.i7baoz.blog.webchat.test;  
+package cn.i7baoz.blog.webchat.util;  
 /** 
  * ClassName:Global 
  * Function: TODO ADD FUNCTION. 

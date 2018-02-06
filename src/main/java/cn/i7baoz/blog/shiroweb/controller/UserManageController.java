@@ -45,21 +45,21 @@ public class UserManageController {
 	private UserService userService;
 	
 	@RequestMapping("main")
-	@UrlPermissionComponent(desc = "用户管理", isView = true, url = "usermanage/main",isMenu=true,sortNumber=2)
+	@UrlPermissionComponent(desc = "用户管理", isView = true, url = "auth/usermanage/main",isMenu=true,sortNumber=2)
 	public ModelAndView usermanage(){
-		ModelAndView m = new ModelAndView("user/usermanage");
+		ModelAndView m = new ModelAndView("shiro/user/usermanage");
 		return m;
 	}
 	@RequestMapping("addUser")
-	@UrlPermissionComponent(desc = "创建新用户页面", isView = true, url = "usermanage/addUser",belong="usermanage/main")
+	@UrlPermissionComponent(desc = "创建新用户页面", isView = true, url = "auth/usermanage/addUser",belong="auth/usermanage/main")
 	public ModelAndView addUser(){
-		ModelAndView m = new ModelAndView("user/addUser");
+		ModelAndView m = new ModelAndView("shiro/user/addUser");
 		return m;
 	}
 	@RequestMapping("userRoleSetting")
-	@UrlPermissionComponent(desc = "用户角色管理", isView = true, url = "usermanage/userRoleSetting",belong="usermanage/main")
+	@UrlPermissionComponent(desc = "用户角色管理", isView = true, url = "auth/usermanage/userRoleSetting",belong="auth/usermanage/main")
 	public ModelAndView userRoleSetting(String userId){
-		ModelAndView m = new ModelAndView("user/userRoleSetting");
+		ModelAndView m = new ModelAndView("shiro/user/userRoleSetting");
 		m.addObject("userId",userId);
 		return m;
 	}
@@ -71,7 +71,7 @@ public class UserManageController {
 	 * @return 
 	 * @since JDK 1.7
 	 */
-	@UrlPermissionComponent(url="usermanage/listUser",desc="查看所有用户",isView=false,belong="usermanage/main")
+	@UrlPermissionComponent(url="auth/usermanage/listUser",desc="查看所有用户",isView=false,belong="auth/usermanage/main")
 	@RequestMapping("listUser")
 	@ResponseBody
 	public ResultMap<List<UserBean>> listAllUsers() throws AuthenticationException{
@@ -83,7 +83,7 @@ public class UserManageController {
 	@Autowired
 	private RoleService roleService;
 	
-	@UrlPermissionComponent(url="usermanage/listAllRoles",desc="查看所有角色信息",isView=false,belong="usermanage/main")
+	@UrlPermissionComponent(url="auth/usermanage/listAllRoles",desc="查看所有角色信息",isView=false,belong="auth/usermanage/main")
 	@RequestMapping("listAllRoles")
 	@ResponseBody
 	public ResultMap<List<RoleBean>> listAllRoles() {
@@ -95,14 +95,15 @@ public class UserManageController {
 	
 	@RequestMapping("create")
 	@ResponseBody
-	@UrlPermissionComponent(url="usermanage/create",desc="创建用户",isView=false,belong="usermanage/main")
+	@UrlPermissionComponent(url="auth/usermanage/create",desc="创建用户",isView=false,belong="auth/usermanage/main")
 	public ResultMap<UserBean> createUser (String username,String password
-			,HttpServletRequest request) throws AuthenticationException{
+			,HttpServletRequest request
+			,Integer roomId) throws AuthenticationException{
 		
 		if ( username.trim().isEmpty() || password.trim().isEmpty() ) {
 			throw new AuthenticationException(SystemMessageEnum.USERNAM_OR_PASSWORD_IS_NULL.getMessage());
 		}
-		UserBean bean = userService.createUser(username,password);
+		UserBean bean = userService.createUser(username,password,roomId);
 		ResultMap<UserBean> resultMap = new ResultMap<UserBean>();
 		resultMap.setSuccess(true);
 		resultMap.setData(bean);
@@ -114,7 +115,7 @@ public class UserManageController {
 	
 	@RequestMapping("findRoles")
 	@ResponseBody
-	@UrlPermissionComponent(url="usermanage/findRoles",desc="根据角色id获取已经拥有的角色",isView=false,belong="usermanage/main")
+	@UrlPermissionComponent(url="auth/usermanage/findRoles",desc="根据角色id获取已经拥有的角色",isView=false,belong="auth/usermanage/main")
 	public ResultMap<List<String>> findRoles(String userId) {
 		ResultMap<List<String>> resultMap = new ResultMap<List<String>>();
 		resultMap.setSuccess(true);
@@ -124,7 +125,7 @@ public class UserManageController {
 	
 	@RequestMapping("correlationRoles")
 	@ResponseBody
-	@UrlPermissionComponent(url="usermanage/correlationRoles",desc="添加用户-角色接口",isView=false,belong="usermanage/main")
+	@UrlPermissionComponent(url="auth/usermanage/correlationRoles",desc="添加用户-角色接口",isView=false,belong="auth/usermanage/main")
 	public void correlationRoles(String userId, String[] roleIds
 			,HttpServletRequest request) {
 		
@@ -135,7 +136,7 @@ public class UserManageController {
 	
 	@RequestMapping("uncorrelationRoles")
 	@ResponseBody
-	@UrlPermissionComponent(url="usermanage/uncorrelationRoles",desc="移除用户-角色接口",isView=false,belong="usermanage/main")
+	@UrlPermissionComponent(url="auth/usermanage/uncorrelationRoles",desc="移除用户-角色接口",isView=false,belong="auth/usermanage/main")
 	public void uncorrelationRoles(String userId, String[] roleIds
 			,HttpServletRequest request) {
 		UserRolesBean bean = userService.uncorrelationRoles(userId, roleIds);

@@ -10,6 +10,7 @@ package cn.i7baoz.blog.shiroweb.credentials;
 
 import javax.servlet.ServletRequest;
 
+import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
 //import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -31,9 +32,12 @@ import cn.i7baoz.blog.shiroweb.enums.SystemMessageEnum;
 @Controller
 public class LoginFormAuthenticationFilter extends FormAuthenticationFilter{
 
+	private static Logger logger = Logger.getLogger(LoginFormAuthenticationFilter.class);
+	
 	@Override
 	protected void setFailureAttribute(ServletRequest request,
 			AuthenticationException ae) {
+		logger.info("error");
 //		检测到异常后，将异常信息发送到request中 使用 ${shiroLoginFailure}接收
 		if ( ae instanceof IncorrectCredentialsException ) {
 			//密码不正确

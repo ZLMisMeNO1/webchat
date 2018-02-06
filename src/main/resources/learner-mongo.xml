@@ -7,7 +7,7 @@
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.8.xsd
 http://www.springframework.org/schema/data/repository http://www.springframework.org/schema/data/repository/spring-repository-1.5.xsd">
-	<context:component-scan base-package="com.mongo" />
+<!-- 	<context:component-scan base-package="com.mongo" /> -->
 	<!-- 获取配置资源 -->
 	<context:property-placeholder location="classpath:mongo_jdbc.properties" />
 

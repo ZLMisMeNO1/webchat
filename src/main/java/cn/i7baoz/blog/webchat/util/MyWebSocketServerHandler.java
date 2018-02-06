@@ -6,7 +6,7 @@
  * 
  */  
   
-package cn.i7baoz.blog.webchat.test;  
+package cn.i7baoz.blog.webchat.util;  
 /** 
  * ClassName:MyWebSocketServerHandler 
  * Function: TODO ADD FUNCTION. 

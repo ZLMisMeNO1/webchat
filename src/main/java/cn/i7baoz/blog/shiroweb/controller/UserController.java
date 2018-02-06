@@ -64,10 +64,6 @@ public class UserController {
 		resultMap.setSuccess(true);
 		return resultMap;
 	}
-	@RequestMapping("about")
-	public String aboutme() {
-		return "aboutme";
-	}
 	
 }
  

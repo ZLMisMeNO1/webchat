@@ -12,6 +12,7 @@ import java.util.HashSet;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -39,6 +40,7 @@ import cn.i7baoz.blog.shiroweb.enums.SystemMessageEnum;
  */
 public class UserRealm extends AuthorizingRealm{
 	
+	private static Logger logger = Logger.getLogger(UserRealm.class);
 	
 	@Resource
 	private UserService userService ;
@@ -62,7 +64,7 @@ public class UserRealm extends AuthorizingRealm{
     public AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
         String username = (String)token.getPrincipal();
-
+        logger.info(username);
         UserBean user = null;
 		try {
 			user = userService.findByUsername(username);

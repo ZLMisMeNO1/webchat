@@ -55,18 +55,18 @@ public class RoleManageController{
 	
 	
 	//角色设置视图
-	@UrlPermissionComponent(url="role/roleSetting",desc="角色管理",isView=true,isMenu=true,sortNumber=1)
+	@UrlPermissionComponent(url="auth/role/roleSetting",desc="角色管理",isView=true,isMenu=true,sortNumber=1)
 	@RequestMapping("roleSetting")
 	public String roleSetting() {
-		return "role/roleSetting";
+		return "shiro/role/roleSetting";
 	}
-	@UrlPermissionComponent(url="role/addRoleView",desc="添加角色",isView=true,belong="role/roleSetting")
+	@UrlPermissionComponent(url="auth/role/addRoleView",desc="添加角色",isView=true,belong="auth/role/roleSetting")
 	@RequestMapping("addRoleView")
 	public String addRoleView() {
-		return "role/addRole";
+		return "shiro/role/addRole";
 	}
 	//管理员可以查看任何人的角色
-	@UrlPermissionComponent(url="role/findRoleByUsername",desc="根据用户名查看角色信息",isView=false,belong="role/roleSetting")
+	@UrlPermissionComponent(url="auth/role/findRoleByUsername",desc="根据用户名查看角色信息",isView=false,belong="auth/role/roleSetting")
 	@RequestMapping("findRoleByUsername")
 	@ResponseBody
 	public List<RoleBean> findRoleByUsername(String username) throws AuthenticationException{
@@ -81,7 +81,7 @@ public class RoleManageController{
 		return userService.findRoleByUsername(username);
 	}
 	
-	@UrlPermissionComponent(url="role/listAllRoles",desc="查看所有角色信息",isView=false,belong="role/roleSetting")
+	@UrlPermissionComponent(url="auth/role/listAllRoles",desc="查看所有角色信息",isView=false,belong="auth/role/roleSetting")
 	@RequestMapping("listAllRoles")
 	@ResponseBody
 	public ResultMap<List<RoleBean>> listAllRoles() {
@@ -94,7 +94,7 @@ public class RoleManageController{
 	//创建角色
 	@RequestMapping("create")
 	@ResponseBody
-	@UrlPermissionComponent(url="role/create",desc="创建角色",isView=false,belong="role/roleSetting")
+	@UrlPermissionComponent(url="auth/role/create",desc="创建角色",isView=false,belong="auth/role/roleSetting")
 	public ResultMap<RoleBean> create(
 			@RequestParam(required=true)String roleName
 			,String desc
@@ -117,7 +117,7 @@ public class RoleManageController{
 	
 	@RequestMapping("findPermissionByRoleId")
 	@ResponseBody
-	@UrlPermissionComponent(url="role/findPermissionByRoleId",desc="根据角色id获取已经拥有的权限",isView=false,belong="role/roleSetting")
+	@UrlPermissionComponent(url="auth/role/findPermissionByRoleId",desc="根据角色id获取已经拥有的权限",isView=false,belong="auth/role/roleSetting")
 	public ResultMap<List<String>> findPermissionByRoleId(String roleId) {
 		ResultMap<List<String>> resultMap = new ResultMap<List<String>>();
 		resultMap.setSuccess(true);
@@ -129,7 +129,7 @@ public class RoleManageController{
 	
 	@RequestMapping("correlationPermissions")
 	@ResponseBody
-	@UrlPermissionComponent(url="role/correlationPermissions",desc="添加角色-权限接口",isView=false,belong="role/roleSetting")
+	@UrlPermissionComponent(url="auth/role/correlationPermissions",desc="添加角色-权限接口",isView=false,belong="auth/role/roleSetting")
 	public void correlationPermissions(String roleId, String[] permissionIds,HttpServletRequest request) {
 		RolePermsBean bean =  roleService.correlationPermissions(roleId, permissionIds);
     	
@@ -137,7 +137,7 @@ public class RoleManageController{
 	
 	@RequestMapping("uncorrelationPermissions")
 	@ResponseBody
-	@UrlPermissionComponent(url="role/uncorrelationPermissions",desc="移除角色-权限接口",isView=false,belong="role/roleSetting")
+	@UrlPermissionComponent(url="auth/role/uncorrelationPermissions",desc="移除角色-权限接口",isView=false,belong="auth/role/roleSetting")
 	public void uncorrelationPermissions(String roleId, String[] permissionIds,HttpServletRequest request) {
 		
 		RolePermsBean bean = roleService.uncorrelationPermissions(roleId, permissionIds);
@@ -148,16 +148,16 @@ public class RoleManageController{
 	PermissionService permissionService;
 	
 	@RequestMapping("setting")
-	@UrlPermissionComponent(isView=true,desc="角色设置权限",url="permission/setting",belong="role/roleSetting")
+	@UrlPermissionComponent(isView=true,desc="角色设置权限",url="auth/permission/setting",belong="auth/role/roleSetting")
 	public ModelAndView premissionManage(String roleId) {
-		ModelAndView m = new ModelAndView("role/permissionManage");
+		ModelAndView m = new ModelAndView("shiro/role/permissionManage");
 		m.addObject("roleId", roleId);
 		return m;
 	}
 	
 	@RequestMapping("listAllPremissionInfo")
 	@ResponseBody
-	@UrlPermissionComponent(isView=false,desc="获取所有权限url",url="permission/listAllPremissionInfo",belong="role/roleSetting")
+	@UrlPermissionComponent(isView=false,desc="获取所有权限url",url="auth/permission/listAllPremissionInfo",belong="auth/role/roleSetting")
 	public ResultMap<List<PermissionBean>> listAllPremissionInfo() {
 		
 		ResultMap<List<PermissionBean>> resultMap = new ResultMap<List<PermissionBean>>();
@@ -168,7 +168,7 @@ public class RoleManageController{
 	}
 	@RequestMapping("listPremissionInfoTree")
 	@ResponseBody
-	@UrlPermissionComponent(isView=false,desc="获取所有权限url树",url="permission/listPremissionInfoTree",belong="role/roleSetting")
+	@UrlPermissionComponent(isView=false,desc="获取所有权限url树",url="auth/permission/listPremissionInfoTree",belong="auth/role/roleSetting")
 	public ResultMap<List<UrlPermissionTreeDto>> getUrlPermissionTree(
 			@RequestParam(defaultValue="/")String rootPermission) {
 		ResultMap<List<UrlPermissionTreeDto>> tree = new ResultMap<List<UrlPermissionTreeDto>>();
