@@ -44,9 +44,12 @@ public class Client {
 				
 			});
 			ChannelFuture future = b.connect("127.0.0.1", 8765).sync();
+			//多个端口
+			ChannelFuture future2 = b.connect("127.0.0.1",8764).sync();
 			
 			future.channel().writeAndFlush(Unpooled.copiedBuffer("Hello Netty".getBytes()));
-			
+			future2.channel().writeAndFlush(Unpooled.copiedBuffer("Hello World".getBytes()));
+			//18:36
 			future.channel().closeFuture().sync();
 			
 		} catch (Exception e ) {

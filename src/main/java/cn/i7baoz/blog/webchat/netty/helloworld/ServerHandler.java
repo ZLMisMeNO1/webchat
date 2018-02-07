@@ -10,6 +10,7 @@ package cn.i7baoz.blog.webchat.netty.helloworld;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -39,7 +40,9 @@ public class ServerHandler extends ChannelHandlerAdapter{
 		buf.readBytes(req);
 		String resp = "服务端接收的消息是:" + new String(req,"utf-8");
 		System.out.println(resp);
-		ctx.writeAndFlush(Unpooled.copiedBuffer(resp.getBytes()));
+		ctx.writeAndFlush(Unpooled.copiedBuffer(resp.getBytes()))
+			//异步关闭连接的客户端
+			.addListener(ChannelFutureListener.CLOSE);
 	}
 
 }

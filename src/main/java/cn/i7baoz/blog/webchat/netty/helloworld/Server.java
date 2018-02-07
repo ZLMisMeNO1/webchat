@@ -56,7 +56,8 @@ public class Server {
 			});
 		try {
 			ChannelFuture future = b.bind(8765).sync();
-			
+			//可以绑定多个端口
+			ChannelFuture future2 = b.bind(8764).sync();
 			future.channel().closeFuture().sync();
 			
 			
